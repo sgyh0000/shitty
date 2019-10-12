@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>club.itguys</groupId>
+    <artifactId>shitty</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>shitty-server</module>
+        <module>shitty-client</module>
+        <module>shitty-core</module>
+        <module>shitty-util</module>
+        <module>shitty-beans</module>
+        <module>shitty-pool</module>
+    </modules>
+
+    <properties>
+        <shitty.version>1.0-SNAPSHOT</shitty.version>
+        <lombok.version>1.18.6</lombok.version>
+        <mysql.version>5.1.47</mysql.version>
+    </properties>
+
+    <dependencyManagement>
+
+        <dependencies>
+
+            <dependency>
+                <groupId>club.itguys</groupId>
+                <artifactId>shitty-core</artifactId>
+                <version>${shitty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>club.itguys</groupId>
+                <artifactId>shitty-util</artifactId>
+                <version>${shitty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>club.itguys</groupId>
+                <artifactId>shitty-pool</artifactId>
+                <version>${shitty.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+            </dependency>
+            
+        </dependencies>
+        
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>utf-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -74,6 +74,9 @@ public class FixableConnectionPool implements ConnectionPool {
                 lock.notifyAll();
             }
         }
+
+        System.out.println("这会有输出的");
+
     }
 
     @Override

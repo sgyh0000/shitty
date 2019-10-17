@@ -11,5 +11,12 @@
 
     <artifactId>shitty-beans</artifactId>
 
+    <dependencies>
+        <dependency>
+            <groupId>club.itguys</groupId>
+            <artifactId>shitty-util</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>

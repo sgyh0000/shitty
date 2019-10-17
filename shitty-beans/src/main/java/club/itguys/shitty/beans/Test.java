@@ -6,10 +6,10 @@ import club.itguys.shitty.beans.anno.Injection;
 /**
  * @author sgyh
  */
-@Component(name = "test2")
+@Component
 public class Test {
 
-    @Injection(name = "test")
+    @Injection
     private TestBean testBean;
 
     public void test() {

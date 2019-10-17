@@ -12,6 +12,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface Repository {
 
-    String name();
+    String name() default "";
 
 }

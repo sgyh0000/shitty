@@ -140,13 +140,6 @@ public class Reflections {
     }
 
     public static void main(String[] args) {
-        try {
-            List<Class<?>> classes = getAllClassesUnderPackage("club.itguys.shitty");
-            for (Class<?> clazz : classes) {
-                System.out.println(clazz.getName());
-            }
-        } catch (Exception e) {
 
-        }
     }
 }

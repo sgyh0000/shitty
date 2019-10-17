@@ -11,4 +11,9 @@
 
     <artifactId>shitty-util</artifactId>
 
+
+    <dependencies>
+
+    </dependencies>
+
 </project>

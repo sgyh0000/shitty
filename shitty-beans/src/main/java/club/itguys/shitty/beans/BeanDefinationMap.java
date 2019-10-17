@@ -34,8 +34,10 @@ public final class BeanDefinationMap {
 //        if (BEAN_TYPE_DEFINATION_MAP.get(type) != null) {
 //            throw new UnsupportedOperationException("The bean type " + type + " has exists");
 //        }
+        if (!"".equals(beanDefination.getBeanName()) || beanDefination.getBeanName() != null) {
+            BEAN_NAME_DEFINATION_MAP.put(beanDefination.getBeanName(), beanDefination);
+        }
         BEAN_TYPE_DEFINATION_MAP.put(type, beanDefination);
-        BEAN_NAME_DEFINATION_MAP.put(beanName, beanDefination);
     }
 
     public static BeanDefination getBeanDefination(Class type) {

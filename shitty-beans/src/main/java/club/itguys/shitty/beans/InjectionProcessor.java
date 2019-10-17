@@ -30,10 +30,10 @@ public class InjectionProcessor {
             }
 
             String injectionName = injection.name();
-            BeanDefination injectionBean = BeanDefinationMap.getBeanDefination(injectionName);
+            Object injectionBean = BeanMatcher.match(injectionName, field);
 
             try {
-                field.set(beanDefination.getBean(), injectionBean.getBean());
+                field.set(beanDefination.getBean(), injectionBean);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }

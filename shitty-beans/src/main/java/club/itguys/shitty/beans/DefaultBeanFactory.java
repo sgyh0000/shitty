@@ -9,6 +9,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 /**
+ * 默认的beanFactory，在无配置特定的beanFactory时，使用默认的来初始化bean
+ *
  * @author sgyh
  */
 public class DefaultBeanFactory implements BeanFactory {

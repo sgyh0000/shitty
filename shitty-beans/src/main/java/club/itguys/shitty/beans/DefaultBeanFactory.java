@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 /**
  * @author sgyh
  */
-public class DefaultBeanInitializer implements BeanInitializer {
+public class DefaultBeanFactory implements BeanFactory {
     @Override
     public <T> BeanDefination<T> initBean(Class<T> clazz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Constructor<T> constructor = clazz.getDeclaredConstructor();

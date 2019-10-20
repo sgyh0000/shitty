@@ -1,11 +1,9 @@
 package club.itguys.shitty.db;
 
 import club.itguys.shitty.beans.BeanDefination;
-import club.itguys.shitty.beans.BeanInitializer;
+import club.itguys.shitty.beans.BeanFactory;
 import club.itguys.shitty.beans.DefaultBeanDefination;
-import club.itguys.shitty.beans.anno.Bean;
 import club.itguys.shitty.beans.anno.Repository;
-import club.itguys.shitty.reflection.Reflections;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.*;
@@ -14,7 +12,7 @@ import java.sql.Connection;
 /**
  * @author sgyh
  */
-public class RepositoryBeanInitializer implements BeanInitializer {
+public class RepositoryBeanFactory implements BeanFactory {
     @Override
     public <T> BeanDefination<T> initBean(Class<T> clazz) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         Constructor<T> constructor = clazz.getDeclaredConstructor();

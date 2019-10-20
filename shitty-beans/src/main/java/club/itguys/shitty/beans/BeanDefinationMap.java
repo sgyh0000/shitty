@@ -28,12 +28,12 @@ public final class BeanDefinationMap {
     public static void addBeanDefination(BeanDefination beanDefination) {
         String beanName = beanDefination.getBeanName();
         Class type = beanDefination.getBeanClass();
-//        if (BEAN_NAME_DEFINATION_MAP.get(beanName) != null) {
-//            throw new UnsupportedOperationException("The bean named " + beanName + " has exists");
-//        }
-//        if (BEAN_TYPE_DEFINATION_MAP.get(type) != null) {
-//            throw new UnsupportedOperationException("The bean type " + type + " has exists");
-//        }
+        if (BEAN_NAME_DEFINATION_MAP.get(beanName) != null) {
+            throw new UnsupportedOperationException("The bean named " + beanName + " has exists");
+        }
+        if (BEAN_TYPE_DEFINATION_MAP.get(type) != null) {
+            throw new UnsupportedOperationException("The bean type " + type + " has exists");
+        }
         if (!"".equals(beanDefination.getBeanName()) || beanDefination.getBeanName() != null) {
             BEAN_NAME_DEFINATION_MAP.put(beanDefination.getBeanName(), beanDefination);
         }

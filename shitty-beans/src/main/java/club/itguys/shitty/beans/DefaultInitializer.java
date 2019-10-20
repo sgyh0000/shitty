@@ -1,8 +1,5 @@
 package club.itguys.shitty.beans;
 
-import club.itguys.shitty.beans.anno.Bean;
-import club.itguys.shitty.beans.anno.Component;
-import club.itguys.shitty.beans.anno.Repository;
 import club.itguys.shitty.reflection.Reflections;
 
 import java.lang.annotation.Annotation;
@@ -11,14 +8,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ *
+ * 获取自定义注解处理
+ *
  * @author sgyh
  */
 public class DefaultInitializer implements Initializer {
 
-    private InjectionProcessor injectionProcessor = new InjectionProcessor();
+    private Processor injectionProcessor = new InjectionProcessor();
 
     @Override
-    public void init(Map<String, Object> configuration, Map<Class<? extends Annotation>, BeanInitializer> beanInitializerMap) {
+    public void init(Map<String, Object> configuration, Map<Class<? extends Annotation>, BeanFactory> beanInitializerMap) {
         try {
             if (configuration != null && configuration.size() != 0) {
                 configuration.forEach(BeanContext::setConfiguration);
@@ -28,22 +28,12 @@ public class DefaultInitializer implements Initializer {
             }
 
             String basePackage = (String) BeanContext.getConfiguration("basePackage");
-            List<Class<?>> classes = Reflections.getAnnotationClassUnderPackage(basePackage, Bean.class);
-            BeanInitializer beanInitializer = BeanContext.getBeanInitializer(Bean.class);
-            for (Class<?> clazz : classes) {
-                BeanDefinationMap.addBeanDefination(beanInitializer.initBean(clazz));
-            }
-
-            classes = Reflections.getAnnotationClassUnderPackage(basePackage, Component.class);
-            beanInitializer = BeanContext.getBeanInitializer(Component.class);
-            for (Class<?> clazz : classes) {
-                BeanDefinationMap.addBeanDefination(beanInitializer.initBean(clazz));
-            }
-
-            classes = Reflections.getAnnotationClassUnderPackage(basePackage, Repository.class);
-            beanInitializer = BeanContext.getBeanInitializer(Repository.class);
-            for (Class<?> clazz : classes) {
-                BeanDefinationMap.addBeanDefination(beanInitializer.initBean(clazz));
+            List<Class<?>> classes;
+            for (Map.Entry<Class<? extends Annotation>, BeanFactory> beanFactoryEntry : BeanContext.getAllBeanInitializers()) {
+                classes = Reflections.getAnnotationClassUnderPackage(basePackage, beanFactoryEntry.getKey());
+                for (Class clazz : classes) {
+                    BeanDefinationMap.addBeanDefination(beanFactoryEntry.getValue().initBean(clazz));
+                }
             }
 
             injectionProcessor.process();
@@ -58,7 +48,7 @@ public class DefaultInitializer implements Initializer {
     }
 
     @Override
-    public void init(String basePackage, Map<Class<? extends Annotation>, BeanInitializer> beanInitializerMap) {
+    public void init(String basePackage, Map<Class<? extends Annotation>, BeanFactory> beanInitializerMap) {
         Map<String, Object> configuration = new HashMap<>();
         configuration.put("basePackage", basePackage);
         init(configuration, beanInitializerMap);

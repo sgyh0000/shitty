@@ -3,6 +3,8 @@ package club.itguys.shitty.beans;
 import java.lang.reflect.Field;
 
 /**
+ * name为空时进行type match
+ *
  * @author sgyh
  */
 public class BeanMatcher {

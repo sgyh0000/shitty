@@ -81,6 +81,25 @@ public class Reflections {
         return fieldMap;
     }
 
+    public static <A extends Annotation> Map<Method, A> getAnnotatedMethods(String basePackage, Class<A> annotationClass) throws IOException {
+        List<Class<?>> classes = getAllClassesUnderPackage(basePackage);
+        return getAnnotatedMethods(classes, annotationClass);
+    }
+
+    public static <A extends Annotation> Map<Method, A> getAnnotatedMethods(List<Class<?>> classes, Class<A> annotationClass) {
+        Map<Method, A> methodMap = new HashMap<>(256);
+        for (Class clazz : classes) {
+            Method[] methods = clazz.getDeclaredMethods();
+            for (Method method : methods) {
+                A a = method.getAnnotation(annotationClass);
+                if (a != null) {
+                    methodMap.put(method, a);
+                }
+            }
+        }
+        return methodMap;
+    }
+
     public static <A extends Annotation> List<A> getAnnotations(Class<A> annotationClass, String basePackage) throws IOException {
         List<Class<?>> classes = getAllClassesUnderPackage(basePackage);
         return getAnnotations(annotationClass, classes);
@@ -140,6 +159,10 @@ public class Reflections {
     }
 
     public static void main(String[] args) {
-
+        try {
+            System.out.println(getAllClassesUnderPackage("club"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

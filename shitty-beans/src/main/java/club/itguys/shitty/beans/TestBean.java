@@ -5,7 +5,7 @@ import club.itguys.shitty.beans.anno.Bean;
 /**
  * @author sgyh
  */
-@Bean(name = "test")
+@Bean
 public class TestBean {
 
     public void test() {

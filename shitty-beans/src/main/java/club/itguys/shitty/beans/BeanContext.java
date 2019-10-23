@@ -11,7 +11,6 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * FIXME 不应显示指定各个注解的factory, 改为try to get, 为null时再使用默认factory
  *
  * TODO {@link club.itguys.shitty.beans.Processor} 的配置获取
  * 
@@ -21,14 +20,11 @@ public final class BeanContext {
 
     private static final Map<Class<? extends Annotation>, BeanFactory> BEAN_FACTORY_MAP = new ConcurrentHashMap<>();
 
+    private static final Map<Class<? extends Annotation>, Processor> PROCESSOR_MAP = new ConcurrentHashMap<>();
+
     private static final Map<String, Object> CONFIGURATION = new ConcurrentHashMap<>();
 
-    static {
-        BeanFactory defaultBeanFactory = new DefaultBeanFactory();
-        BEAN_FACTORY_MAP.put(Bean.class, defaultBeanFactory);
-        BEAN_FACTORY_MAP.put(Component.class, defaultBeanFactory);
-        BEAN_FACTORY_MAP.put(Repository.class, defaultBeanFactory);
-    }
+    private static final BeanFactory DEFAULT_BEAN_FACTORY = new DefaultBeanFactory();
 
     public static void setBeanInitializer(Class<? extends Annotation> annotationClass, BeanFactory beanFactory) {
         BEAN_FACTORY_MAP.put(annotationClass, beanFactory);
@@ -37,12 +33,12 @@ public final class BeanContext {
     public static BeanFactory getBeanInitializer(Class<? extends Annotation> annotationClass) {
         BeanFactory beanFactory = BEAN_FACTORY_MAP.get(annotationClass);
         if (beanFactory == null) {
-            throw new NullPointerException("NULL");
+            return DEFAULT_BEAN_FACTORY;
         }
         return beanFactory;
     }
 
-    public static Collection<BeanFactory> getAllBeanInitializer() {
+    public static Collection<BeanFactory> getAllBeanFactory() {
         return BEAN_FACTORY_MAP.values();
     }
 
@@ -54,8 +50,28 @@ public final class BeanContext {
         return CONFIGURATION.get(key);
     }
 
-    public static Set<Map.Entry<Class<? extends Annotation>, BeanFactory>> getAllBeanInitializers() {
+    public static Set<Map.Entry<Class<? extends Annotation>, BeanFactory>> getAllBeanFactoryEntry() {
         return BEAN_FACTORY_MAP.entrySet();
+    }
+
+    public static void setProcessor(Class<? extends Annotation> annotationClass, Processor processor) {
+        PROCESSOR_MAP.put(annotationClass, processor);
+    }
+
+    public static Processor getProcessor(Class<? extends Annotation> annotationClass) {
+        Processor processor = PROCESSOR_MAP.get(annotationClass);
+        if (processor == null) {
+            throw new NullPointerException("Processor is null");
+        }
+        return processor;
+    }
+
+    public static Set<Map.Entry<Class<? extends Annotation>, Processor>> getAllProcessorEntry() {
+        return PROCESSOR_MAP.entrySet();
+    }
+
+    public static Collection<Processor> getAllProcessors() {
+        return PROCESSOR_MAP.values();
     }
 
 }

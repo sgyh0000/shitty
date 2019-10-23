@@ -20,13 +20,7 @@ public class InjectionProcessor implements Processor {
         injectionMap.forEach((field, injection) -> {
 
             Class type = field.getDeclaringClass();
-            BeanDefination beanDefination;
-            try {
-                beanDefination = BeanDefinationMap.getBeanDefination(type);
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-                return;
-            }
+            BeanDefination beanDefination = BeanDefinationMap.getBeanDefination(type);
 
             if (!field.isAccessible()) {
                 field.setAccessible(true);

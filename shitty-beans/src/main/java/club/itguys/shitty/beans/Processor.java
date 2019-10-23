@@ -7,7 +7,7 @@ package club.itguys.shitty.beans;
  *
  * @author sgyh
  */
-public interface Processor {
+public interface Processor<T> {
 
     /**
      * process

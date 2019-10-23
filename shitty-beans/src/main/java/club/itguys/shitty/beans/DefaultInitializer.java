@@ -15,8 +15,6 @@ import java.util.Map;
  */
 public class DefaultInitializer implements Initializer {
 
-    private Processor injectionProcessor = new InjectionProcessor();
-
     @Override
     public void init(Map<String, Object> configuration, Map<Class<? extends Annotation>, BeanFactory> beanInitializerMap) {
         try {
@@ -29,14 +27,20 @@ public class DefaultInitializer implements Initializer {
 
             String basePackage = (String) BeanContext.getConfiguration("basePackage");
             List<Class<?>> classes;
-            for (Map.Entry<Class<? extends Annotation>, BeanFactory> beanFactoryEntry : BeanContext.getAllBeanInitializers()) {
+            for (Map.Entry<Class<? extends Annotation>, BeanFactory> beanFactoryEntry : BeanContext.getAllBeanFactoryEntry()) {
                 classes = Reflections.getAnnotationClassUnderPackage(basePackage, beanFactoryEntry.getKey());
                 for (Class clazz : classes) {
                     BeanDefinationMap.addBeanDefination(beanFactoryEntry.getValue().initBean(clazz));
                 }
             }
 
-            injectionProcessor.process();
+            BeanContext.getAllProcessors().forEach(processor -> {
+                try {
+                    processor.process();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }

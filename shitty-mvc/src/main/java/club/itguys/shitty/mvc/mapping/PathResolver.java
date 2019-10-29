@@ -9,10 +9,12 @@ import java.lang.reflect.Method;
  */
 public interface PathResolver {
 
-    void setPath(String path);
+    String getPath();
 
-    void setResolover(Method method);
+    Method getResolver();
 
-    void setHttpMethod(HttpMethod httpMethod);
+    HttpMethod getHttpMethod();
+
+    Object resolve(Object... objects);
 
 }

@@ -1,8 +1,10 @@
 package club.itguys.shitty.mvc.mapping;
 
 import club.itguys.shitty.mvc.core.HttpMethod;
+import club.itguys.shitty.mvc.core.Parameter;
 
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * @author sgyh
@@ -15,6 +17,10 @@ public interface PathResolver {
 
     HttpMethod getHttpMethod();
 
-    Object resolve(Object... objects);
+    List<Parameter> getParameters();
+
+    boolean isJsonSerialize();
+
+    String resolve(Object... objects);
 
 }

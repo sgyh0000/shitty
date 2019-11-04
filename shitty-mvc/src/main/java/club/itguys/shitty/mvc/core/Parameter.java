@@ -13,11 +13,14 @@ public class Parameter {
     private boolean isRequired;
     private String defaultValue;
 
-    public Parameter(Method baseMethod, String name, boolean isRequired, String defaultValue) {
+    private Class<?> type;
+
+    public Parameter(Method baseMethod, String name, boolean isRequired, String defaultValue, Class<?> type) {
         this.baseMethod = baseMethod;
         this.name = name;
         this.isRequired = isRequired;
         this.defaultValue = defaultValue;
+        this.type = type;
     }
 
     public Method getBaseMethod() {
@@ -34,5 +37,9 @@ public class Parameter {
 
     public String getDefaultValue() {
         return defaultValue;
+    }
+
+    public Class<?> getType() {
+        return type;
     }
 }

@@ -62,3 +62,54 @@ web.xml中配置
 
 </web-app>
 ```
+
+# example
+这里以mvc为例
+
+新建一个项目: com.test
+com.test包下新建个controller包
+新建个Test类
+
+```java
+package con.test.controller;
+
+import club.itguys.shitty.mvc.anno.Controller;
+import club.itguys.shitty.mvc.anno.Param;
+import club.itguys.shitty.mvc.anno.Path;
+import club.itguys.shitty.mvc.anno.ResponseBody;
+
+// 前端接口必须加Controller注解,name值可不填
+@Controller
+public class Test {
+
+    // Path注解配置URI, 请求方式, 路径必填, 请求方式不填默认所有均可
+    @Path(path = "/test")
+    // 若添加了这个注解, 则将返回的对象进行json序列化
+    @ResponseBody
+    public Object test(@Param(name = "name") String name, @Param(name = "age") int age) { // Param注解配置请求参数, name必填, 另外还有是否必填、默认值等配置
+        return new t(name, age);
+    }
+
+    private class t {
+        private String name;
+        private int age;
+
+        public t(String name, int age) {
+            this.name = name;
+            this.age = age;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public int getAge() {
+            return age;
+        }
+    }
+
+}
+
+```
+
+请求路径: /test?name=test&age=1, 就会看到返回json对象了

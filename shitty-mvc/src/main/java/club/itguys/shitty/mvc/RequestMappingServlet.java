@@ -79,6 +79,7 @@ public class RequestMappingServlet extends HttpServlet implements RequestMapping
             if (pathResolver.isJsonSerialize()) {
                 resp.setContentType("application/json");
             }
+            resp.setCharacterEncoding(System.getProperty("charset"));
             resp.getWriter().print(result);
         } catch (UnsupportedMethodException e) {
             // 有必填字段未填

@@ -72,7 +72,7 @@ public class RequestMappingServlet extends HttpServlet implements RequestMapping
             String result = pathResolver.resolve(parameters.toArray());
             // 重定向
             if (result.startsWith(REDIRECT_PREFIX)) {
-                resp.sendRedirect(result.replace(REDIRECT_PREFIX, ""));
+                resp.sendRedirect(req.getContextPath() + result.replace(REDIRECT_PREFIX, ""));
                 return;
             }
             // json字符串

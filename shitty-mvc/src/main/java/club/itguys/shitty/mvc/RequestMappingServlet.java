@@ -6,12 +6,14 @@ import club.itguys.shitty.mvc.mapping.MvcContext;
 import club.itguys.shitty.mvc.mapping.PathResolver;
 import club.itguys.shitty.mvc.mapping.RequestMapping;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +67,7 @@ public class RequestMappingServlet extends HttpServlet implements RequestMapping
             resp.sendError(400, e.getMessage());
             return;
         }
-        List<String> parameters = pathResolver.getParameters().stream().map(
+        List<Object> parameters = pathResolver.getParameters().stream().map(
                 p -> getParameterValue(req, p)
         ).collect(Collectors.toList());
         try {
@@ -87,10 +89,16 @@ public class RequestMappingServlet extends HttpServlet implements RequestMapping
         }
     }
 
-    private String getParameterValue(HttpServletRequest req, Parameter parameter) {
+    private Object getParameterValue(HttpServletRequest req, Parameter parameter) {
         // todo 添加非表单参数HttpServletRequest、HttpSession等参数的注入
+        if (HttpServletRequest.class.getName().equals(parameter.getType().getName())) {
+            return req;
+        }
+        if (HttpSession.class.getName().equals(parameter.getType().getName())) {
+            return req.getSession();
+        }
         String value = req.getParameter(parameter.getName());
         // 缺省值替代, 确保到PathResolver时都为非null(若仍有null, 则返回400)
-        return value == null ? parameter.getDefaultValue() : value;
+        return value == null | "".equals(value) ? parameter.getDefaultValue() : value;
     }
 }

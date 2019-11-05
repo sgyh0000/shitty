@@ -8,6 +8,8 @@ import club.itguys.shitty.mvc.core.HttpMethod;
 import club.itguys.shitty.mvc.core.Parameter;
 import com.alibaba.fastjson.JSON;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -40,7 +42,15 @@ public class PathResolverImpl implements PathResolver {
         for (java.lang.reflect.Parameter parameter : parameters) {
             Param param = parameter.getAnnotation(Param.class);
             if (param == null) {
-                // todo throw exception
+                if (parameter.getType().getName().equals(HttpServletRequest.class.getName())) {
+                    this.parameters.add(new Parameter(method, "req", true, null, HttpServletRequest.class));
+                    continue;
+                }
+                if (parameter.getType().getName().equals(HttpSession.class.getName())) {
+                    this.parameters.add(new Parameter(method, "session", true, null, HttpSession.class));
+                    continue;
+                }
+                // todo 其它情况应该抛异常
             }
             this.parameters.add(new Parameter(method, param.name(), param.isRequired(), param.defaultValue(), parameter.getType()));
         }
